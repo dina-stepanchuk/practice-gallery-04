@@ -1,1 +1,1 @@
-# goit-js-hw-08
+# practice-gallery-04
