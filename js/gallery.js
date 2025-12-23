@@ -1,80 +1,58 @@
-const images = [
+const dishes = [
   {
     preview:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
-    original:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820_1280.jpg',
-    description: 'Hokkaido Flower',
+      'https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=400',
+    original: 'https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg',
+    description: 'Italian Pizza with Mozzarella',
   },
   {
     preview:
-      'https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677__340.jpg',
+      'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=400',
     original:
-      'https://cdn.pixabay.com/photo/2019/05/14/22/05/container-4203677_1280.jpg',
-    description: 'Container Haulage Freight',
+      'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg',
+    description: 'Classic Beef Burger',
   },
   {
     preview:
-      'https://cdn.pixabay.com/photo/2019/05/16/09/47/beach-4206785__340.jpg',
+      'https://images.pexels.com/photos/357573/pexels-photo-357573.jpeg?auto=compress&cs=tinysrgb&w=400',
     original:
-      'https://cdn.pixabay.com/photo/2019/05/16/09/47/beach-4206785_1280.jpg',
-    description: 'Aerial Beach View',
+      'https://images.pexels.com/photos/357573/pexels-photo-357573.jpeg',
+    description: 'Fresh Sushi Set',
   },
   {
     preview:
-      'https://cdn.pixabay.com/photo/2016/11/18/16/19/flowers-1835619__340.jpg',
+      'https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg?auto=compress&cs=tinysrgb&w=400',
     original:
-      'https://cdn.pixabay.com/photo/2016/11/18/16/19/flowers-1835619_1280.jpg',
-    description: 'Flower Blooms',
+      'https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg',
+    description: 'Pasta Carbonara',
   },
   {
     preview:
-      'https://cdn.pixabay.com/photo/2018/09/13/10/36/mountains-3674334__340.jpg',
+      'https://images.pexels.com/photos/3026806/pexels-photo-3026806.jpeg?auto=compress&cs=tinysrgb&w=400',
     original:
-      'https://cdn.pixabay.com/photo/2018/09/13/10/36/mountains-3674334_1280.jpg',
-    description: 'Alpine Mountains',
+      'https://images.pexels.com/photos/3026806/pexels-photo-3026806.jpeg',
+    description: 'Healthy Avocado Salad',
   },
   {
     preview:
-      'https://cdn.pixabay.com/photo/2019/05/16/23/04/landscape-4208571__340.jpg',
+      'https://images.pexels.com/photos/4109997/pexels-photo-4109997.jpeg?auto=compress&cs=tinysrgb&w=400',
     original:
-      'https://cdn.pixabay.com/photo/2019/05/16/23/04/landscape-4208571_1280.jpg',
-    description: 'Mountain Lake Sailing',
-  },
-  {
-    preview:
-      'https://cdn.pixabay.com/photo/2019/05/17/09/27/the-alps-4209272__340.jpg',
-    original:
-      'https://cdn.pixabay.com/photo/2019/05/17/09/27/the-alps-4209272_1280.jpg',
-    description: 'Alpine Spring Meadows',
-  },
-  {
-    preview:
-      'https://cdn.pixabay.com/photo/2019/05/16/21/10/landscape-4208255__340.jpg',
-    original:
-      'https://cdn.pixabay.com/photo/2019/05/16/21/10/landscape-4208255_1280.jpg',
-    description: 'Nature Landscape',
-  },
-  {
-    preview:
-      'https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843__340.jpg',
-    original:
-      'https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843_1280.jpg',
-    description: 'Lighthouse Coast Sea',
+      'https://images.pexels.com/photos/4109997/pexels-photo-4109997.jpeg',
+    description: 'Chocolate Dessert Cake',
   },
 ];
 
 const container = document.querySelector('.gallery');
-const createImageList = images => {
-  return images
-    .map(image => {
+const createImageDishes = dishes => {
+  return dishes
+    .map(dish => {
       return `<li class="gallery-item">
-  <a class="gallery-link" href="${image.original}">
+  <a class="gallery-link" href="${dish.original}">
     <img
       class="gallery-image"
-      src="${image.preview}"
-      data-source="${image.original}"
-      alt="${image.description}"
+      src="${dish.preview}"
+      data-source="${dish.original}"
+      alt="${dish.description}"
     />
   </a>
 </li>
@@ -83,31 +61,28 @@ const createImageList = images => {
     .join('');
 };
 
-const handleImageClick = event => {
+const clickOnDish = event => {
   event.preventDefault();
   const targetEl = event.target;
   if (!targetEl.classList.contains('gallery-image')) {
-    console.log('Stop');
     return;
   }
-
   const imageEl = targetEl;
-  console.log(imageEl);
 
-  const largeImage = images.find(
-    image => image.original === imageEl.dataset.source
-  );
-
+  const largeImage = imageEl.dataset.source;
+  const largeImageAlt = targetEl.alt;
   const instance = basicLightbox.create(
-    `<div class="modal"><img class="modal-image" src="${largeImage.original}" alt="${largeImage.description}" /></div>`,
+    `
+    <div class="modal"><img class="modal-image"
+    src="${largeImage}" alt="${largeImageAlt}" /></div>`,
     {
       onShow: instance => {
         instance.element().addEventListener('click', () => instance.close());
       },
     }
   );
-
   instance.show();
 };
-container.insertAdjacentHTML('beforeend', createImageList(images));
-container.addEventListener('click', handleImageClick);
+
+container.insertAdjacentHTML('beforeend', createImageDishes(dishes));
+container.addEventListener('click', clickOnDish);
